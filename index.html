@@ -898,6 +898,35 @@ _ps("embedded-eotoy6r43" + ':send', 'agreed', {
       form.addEventListener('button', function(event) {
         handleFormSubmit(event);
       });
+
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+        _ps("embedded-eotoy6r43" + ':send', 'agreed', {
+            disable_sending: false, // We have to revert to allow sending with the snippet here.
+            event_callback: function(err, eventType, group, request) {
+                if (err) {
+                    // Something went wrong with sending the agreed event.
+                    alert('Uh oh, something went wrong. Please try submitting again.'); // Alert the user
+                    return false; // Prevent form submission due to error.
+                }
+                
+                // Since we had no errors, go ahead and submit the form.
+                var form = pageFormElement();
+                if (form) form.submit(); // Check we're able to retrieve the form.
+                return true;
+            }
+        });
+    }
+
+    // Attach the event listener to the button, assuming the button has an ID 'submitButton'
+    var submitButton = document.getElementById('button');
+    if (submitButton) {
+        submitButton.addEventListener('click', handleFormSubmit);
+    }
+</script>
+
  </script>
     <footer>
         <div id="footer" class="footer container mm-fixed-bottom">
